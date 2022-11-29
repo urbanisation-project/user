@@ -26,6 +26,8 @@ public class UserController {
     }
     @GetMapping("/")
     public List<User> getAll(){
+        //return userService.findAll();
+        System.out.println("hello world");
         return userService.findAll();
     }
     @DeleteMapping("/{userId}")
