@@ -1,6 +1,5 @@
 package com.example.projeturbanisationbackend.service;
 
-import com.example.projeturbanisationbackend.model.Playlist;
 import com.example.projeturbanisationbackend.model.Video;
 
 import java.util.List;

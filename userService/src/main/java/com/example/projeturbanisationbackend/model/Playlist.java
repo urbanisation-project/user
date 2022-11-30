@@ -1,5 +1,6 @@
 package com.example.projeturbanisationbackend.model;
 
+import com.example.projeturbanisationbackend.payload.PlaylistPayload;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,15 @@ public class Playlist {
     @ManyToOne
     @JoinColumn(name = "user_id")
     public User user;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     public List<Video> videos;
+
+    public PlaylistPayload toPayload(){
+        return new PlaylistPayload(
+                this.id,
+                this.name,
+                this.user,
+                this.videos
+        );
+    }
 }
