@@ -1,7 +1,7 @@
 package com.example.projeturbanisationbackend.controller;
 
-import com.example.projeturbanisationbackend.model.User;
 import com.example.projeturbanisationbackend.payload.Credentials;
+import com.example.projeturbanisationbackend.payload.UserPayload;
 import com.example.projeturbanisationbackend.service.AuthenticationService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +18,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/")
-    public User authenticate(@RequestBody Credentials credentials){
-        return authenticationService.findByCredentials(credentials);
+    public UserPayload authenticate(@RequestBody Credentials credentials){
+        return authenticationService.findByCredentials(credentials).toPayload();
     }
 }

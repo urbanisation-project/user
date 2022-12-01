@@ -1,27 +1,21 @@
-package com.example.projeturbanisationbackend.model;
+package com.example.projeturbanisationbackend.payload;
 
-import com.example.projeturbanisationbackend.payload.UserPayload;
+import com.example.projeturbanisationbackend.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
-
-@Entity
-@Table
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserPayload {
     private Long id;
     private String name;
     private String email;
     private String password;
 
-    public UserPayload toPayload() {
-        return new UserPayload(
+    public User toEntity() {
+        return new User(
                 this.id,
                 this.name,
                 this.email,
