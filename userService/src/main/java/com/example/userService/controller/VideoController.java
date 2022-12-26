@@ -3,17 +3,19 @@ package com.example.userService.controller;
 import com.example.userService.model.Video;
 import com.example.userService.payload.VideoPayload;
 import com.example.userService.service.VideoService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/videos")
+@RequestMapping("/v1/api/playlists/videos")
 public class VideoController {
-    @Autowired
-    VideoService videoService;
+    private final VideoService videoService;
+
+    public VideoController(VideoService videoService) {
+        this.videoService = videoService;
+    }
 
     @GetMapping("/")
     public List<VideoPayload> getAll() {
@@ -30,9 +32,9 @@ public class VideoController {
         return videoService.save(videoPayload.toEntity()).toPayload();
     }
 
-    @DeleteMapping("/{videoId}")
-    public boolean deleteById(@PathVariable Long playlistId){
-        return videoService.deleteById(playlistId);
+    @PostMapping("/remove")
+    public Boolean deleteById(@RequestBody VideoPayload video){
+        return videoService.deleteById(video.getId());
     }
 
 }

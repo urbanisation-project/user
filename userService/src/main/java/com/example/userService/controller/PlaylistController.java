@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/playlists")
+@RequestMapping("/v1/api/playlists")
 public class PlaylistController {
     @Autowired
     PlaylistService playlistService;
@@ -38,21 +38,20 @@ public class PlaylistController {
         return playlistService.save(playlistPayload.toEntity()).toPayload();
     }
 
-    @DeleteMapping("/{playlistId}")
+    @DeleteMapping("/{playlistId}/delete")
     public boolean deleteById(@PathVariable Long playlistId){
         return playlistService.deleteById(playlistId);
     }
 
-    @PostMapping("/add-to-playlist/{playlistPayloadId}")
-    public PlaylistPayload addVideoToPlaylist(@PathVariable Long playlistPayloadId , @RequestBody VideoPayload videoPayload){
-        PlaylistPayload playlistPayload = playlistService.findById(playlistPayloadId).toPayload();
+    @PostMapping("/{playlistId}/add-video")
+    public PlaylistPayload addVideoToPlaylist(@PathVariable Long playlistId , @RequestBody VideoPayload videoPayload){
+        PlaylistPayload playlistPayload = playlistService.findById(playlistId).toPayload();
         return playlistService.save(useCase.addVideoToPlaylist(playlistPayload, videoPayload).toEntity()).toPayload();
     }
 
-    @PutMapping("/delete-from-playlist/{playlistPayloadId}")
-    public PlaylistPayload deleteVideoFromPlaylist(@PathVariable Long playlistPayloadId, @RequestBody VideoPayload videoPayload){
-        PlaylistPayload playlistPayload = playlistService.findById(playlistPayloadId).toPayload();
-        //return playlistService.save(useCase.deleteVideo(playlistPayload, videoPayload).toEntity()).toPayload();
+    @PutMapping("/{playlistId}/remove-video")
+    public PlaylistPayload deleteVideoFromPlaylist(@PathVariable Long playlistId, @RequestBody VideoPayload videoPayload){
+        PlaylistPayload playlistPayload = playlistService.findById(playlistId).toPayload();
         PlaylistPayload playlistPayload1 = useCase.deleteVideo(playlistPayload, videoPayload);
         return playlistService.save(playlistPayload1.toEntity()).toPayload();
     }

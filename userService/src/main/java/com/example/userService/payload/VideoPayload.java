@@ -14,6 +14,7 @@ public class VideoPayload {
     private String miniature;
     private String description;
     private String title;
+    private PlaylistPayload playlist;
 
     public Video toEntity() {
         return new Video(

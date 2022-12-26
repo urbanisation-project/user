@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/v1/api/users")
 public class UserController {
     @Autowired
     UserService userService;
@@ -30,7 +30,7 @@ public class UserController {
     public List<UserPayload> getAll(){
         return userService.findAll().stream().map(User::toPayload).collect(Collectors.toList());
     }
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/{userId}/delete")
     public boolean deleteById(@PathVariable Long userId){
         return userService.deleteById(userId);
     }

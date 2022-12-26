@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/research")
+@RequestMapping("/v1/api/researches")
 public class ResearchController {
     @Autowired
     UseCase useCase;
