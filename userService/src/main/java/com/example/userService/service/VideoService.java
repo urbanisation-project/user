@@ -10,4 +10,6 @@ public interface VideoService {
     Video findById(Long videoId);
     List<Video> findAll();
     boolean deleteById(Long videoId);
+
+    List<Video> findVideosByPlaylistId(Long playlistId);
 }

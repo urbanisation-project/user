@@ -1,6 +1,6 @@
 package com.example.userService.service.impl;
 
-import com.example.userService.model.User;
+import com.example.userService.model.Owner;
 import com.example.userService.repository.UserRepository;
 import com.example.userService.service.UserService;
 import org.springframework.stereotype.Service;
@@ -16,22 +16,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(User user) {
+    public Owner save(Owner user) {
         return userRepository.save(user);
     }
 
     @Override
-    public User update(User user) {
+    public Owner update(Owner user) {
         return userRepository.save(user);
     }
 
     @Override
-    public User findById(Long userId) {
+    public Owner findById(Long userId) {
         return userRepository.findById(userId).get();
     }
 
     @Override
-    public List<User> findAll() {
+    public List<Owner> findAll() {
         return userRepository.findAll();
     }
 

@@ -67,12 +67,13 @@ public class SearchKeywordYoutubeService {
 
             JSONObject newVideo = new JSONObject();
 
-            newVideo.put("title", snippet.get("title"));
-            newVideo.put("description", snippet.get("description"));
-            newVideo.put("link", "https://www.youtube.com/embed/" + youtubeId.get("videoId"));
-            newVideo.put("thumbnail", high.get("url"));
-
-            newJsonArray.put(newVideo);
+            if(!youtubeId.isNull("videoId")){
+                newVideo.put("title", snippet.get("title"));
+                newVideo.put("description", snippet.get("description"));
+                newVideo.put("link", "https://www.youtube.com/embed/" + youtubeId.get("videoId"));
+                newVideo.put("thumbnail", high.get("url"));
+                newJsonArray.put(newVideo);
+            }
         }
 
         return newJsonArray;

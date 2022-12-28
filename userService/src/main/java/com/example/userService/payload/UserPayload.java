@@ -1,6 +1,6 @@
 package com.example.userService.payload;
 
-import com.example.userService.model.User;
+import com.example.userService.model.Owner;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,12 +14,12 @@ public class UserPayload {
     private String email;
     private String password;
 
-    public User toEntity() {
-        return new User(
-                this.id,
-                this.name,
-                this.email,
-                this.password
+    public Owner toEntity() {
+        return new Owner(
+                getId(),
+                getName(),
+                getEmail(),
+                getPassword()
         );
     }
 }

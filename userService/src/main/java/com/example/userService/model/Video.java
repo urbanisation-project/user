@@ -22,23 +22,17 @@ public class Video {
     private String miniature;
     private String description;
     private String title;
-
-    // jsonObject is the return value of api package
-    public Video(JSONObject jsonObject) throws JSONException {
-        this.id = -10000L;
-        this.link = jsonObject.getString("link");
-        this.miniature = jsonObject.getString("thumbnail");
-        this.description = jsonObject.getString("description");
-        this.title = jsonObject.getString("title");
-    }
+    @ManyToOne
+    private Playlist playlist;
 
     public VideoPayload toPayload() {
         return new VideoPayload(
-                this.id,
-                this.link,
-                this.miniature,
-                this.description,
-                this.title
+                getId(),
+                getLink(),
+                getMiniature(),
+                getDescription(),
+                getTitle(),
+                getPlaylist().toPayload()
         );
     }
 }

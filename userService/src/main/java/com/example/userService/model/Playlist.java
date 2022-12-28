@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table
@@ -20,16 +19,13 @@ public class Playlist {
     public String name;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    public User user;
-    @OneToMany(cascade = CascadeType.ALL)
-    public List<Video> videos;
+    public Owner user;
 
     public PlaylistPayload toPayload(){
         return new PlaylistPayload(
-                this.id,
-                this.name,
-                this.user,
-                this.videos
+                getId(),
+                getName(),
+                getUser().toPayload()
         );
     }
 }

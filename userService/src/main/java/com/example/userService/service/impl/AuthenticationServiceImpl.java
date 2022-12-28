@@ -1,6 +1,6 @@
 package com.example.userService.service.impl;
 
-import com.example.userService.model.User;
+import com.example.userService.model.Owner;
 import com.example.userService.payload.Credentials;
 import com.example.userService.repository.UserRepository;
 import com.example.userService.service.AuthenticationService;
@@ -15,7 +15,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public User findByCredentials(Credentials credentials) {
+    public Owner findByCredentials(Credentials credentials) {
         return userRepository.findByEmailAndPassword(credentials.getMail(), credentials.getPassword());
     }
 }

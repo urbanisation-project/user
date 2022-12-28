@@ -89,27 +89,31 @@ public class SearchKeywordDailymotionService {
 
         JSONObject json = getDailymotionApiSearchResponse(searchKeyword);
 
-        JSONArray jsonModified = (JSONArray) json.get("list");
+        JSONArray jsonModified = json != null ? (JSONArray) json.get("list") : null;
 
         JSONArray newJsonArray = new JSONArray();
 
-        for (int i = 0; i < jsonModified.length(); i++) {
-            JSONObject video = (JSONObject) jsonModified.get(i);
+        if (jsonModified != null){
+            for (int i = 0; i < jsonModified.length(); i++) {
+                JSONObject video = (JSONObject) jsonModified.get(i);
 
-            JSONObject workingJson = getDailymotionApiDescriptionResponse(video.getString("id"));
+                JSONObject workingJson = getDailymotionApiDescriptionResponse(video.getString("id"));
 
-            JSONObject newVideo = new JSONObject();
+                JSONObject newVideo = new JSONObject();
+                if (workingJson != null){
+                    newVideo.put("title", workingJson.getString("title"));
+                    newVideo.put("description", workingJson.getString("description"));
+                    newVideo.put("link", "https://geo.dailymotion.com/player/x938as.html?video=" + video.getString("id"));
+                    newVideo.put("thumbnail", workingJson.getString("thumbnail_1080_url"));
+                }
 
-            newVideo.put("title", workingJson.getString("title"));
-            newVideo.put("description", workingJson.getString("description"));
-            newVideo.put("link", "https://geo.dailymotion.com/player/x938as.html?video=" + video.getString("id"));
-            newVideo.put("thumbnail", workingJson.getString("thumbnail_1080_url"));
-
-            newJsonArray.put(newVideo);
-            if(i == 4){
-                return newJsonArray;
+                newJsonArray.put(newVideo);
+                if(i == 4){
+                    return newJsonArray;
+                }
             }
         }
+
 
         return newJsonArray;
     }

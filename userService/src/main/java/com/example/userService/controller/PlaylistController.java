@@ -1,11 +1,13 @@
 package com.example.userService.controller;
 
 import com.example.userService.business.UseCase;
+import com.example.userService.business.dto.VideoDTO;
 import com.example.userService.model.Playlist;
+import com.example.userService.model.Video;
 import com.example.userService.payload.PlaylistPayload;
 import com.example.userService.payload.VideoPayload;
 import com.example.userService.service.PlaylistService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.userService.service.VideoService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,10 +16,13 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/v1/api/playlists")
 public class PlaylistController {
-    @Autowired
-    PlaylistService playlistService;
-    @Autowired
-    UseCase useCase;
+    private final PlaylistService playlistService;
+    private final VideoService videoService;
+
+    public PlaylistController(PlaylistService playlistService, UseCase useCase, VideoService videoService) {
+        this.playlistService = playlistService;
+        this.videoService = videoService;
+    }
 
     @GetMapping("/")
     public List<PlaylistPayload> getAll() {
@@ -44,16 +49,14 @@ public class PlaylistController {
     }
 
     @PostMapping("/{playlistId}/add-video")
-    public PlaylistPayload addVideoToPlaylist(@PathVariable Long playlistId , @RequestBody VideoPayload videoPayload){
-        PlaylistPayload playlistPayload = playlistService.findById(playlistId).toPayload();
-        return playlistService.save(useCase.addVideoToPlaylist(playlistPayload, videoPayload).toEntity()).toPayload();
+    public PlaylistPayload addVideoToPlaylist(@PathVariable Long playlistId , @RequestBody VideoDTO video){
+        Playlist playlist = playlistService.findById(playlistId).toPayload().toEntity();
+        videoService.save(new Video(-1L,video.getLink(),video.getMiniature(),video.getDescription(),video.getTitle(),playlist));
+        return playlist.toPayload();
     }
-
-    @PutMapping("/{playlistId}/remove-video")
-    public PlaylistPayload deleteVideoFromPlaylist(@PathVariable Long playlistId, @RequestBody VideoPayload videoPayload){
-        PlaylistPayload playlistPayload = playlistService.findById(playlistId).toPayload();
-        PlaylistPayload playlistPayload1 = useCase.deleteVideo(playlistPayload, videoPayload);
-        return playlistService.save(playlistPayload1.toEntity()).toPayload();
+    @GetMapping("{playlistId}/videos")
+    public List<VideoPayload> getPlaylistVideos(@PathVariable Long playlistId){
+        return videoService.findVideosByPlaylistId(playlistId).stream().map(Video::toPayload).collect(Collectors.toList());
     }
 
 }

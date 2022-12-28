@@ -2,6 +2,7 @@ package com.example.userService.service.impl;
 
 import com.example.userService.model.Video;
 import com.example.userService.repository.VideoRepository;
+import com.example.userService.service.PlaylistService;
 import com.example.userService.service.VideoService;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,11 @@ import java.util.List;
 public class VideoServiceImp implements VideoService {
 
     public final VideoRepository videoRepository;
+    public final PlaylistService playlistService;
 
-    public VideoServiceImp(VideoRepository videoRepository) {
+    public VideoServiceImp(VideoRepository videoRepository, PlaylistService playlistService) {
         this.videoRepository = videoRepository;
+        this.playlistService = playlistService;
     }
 
     @Override
@@ -40,5 +43,10 @@ public class VideoServiceImp implements VideoService {
             e.printStackTrace();
             return false;
         }
+    }
+
+    @Override
+    public List<Video> findVideosByPlaylistId(Long playlistId) {
+        return videoRepository.findVideosByPlaylist(playlistService.findById(playlistId));
     }
 }
