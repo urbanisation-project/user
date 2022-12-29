@@ -22,14 +22,4 @@ public class UseCase {
         }
         return listVideos;
     }
-
-//    public PlaylistPayload addVideoToPlaylist(PlaylistPayload playlistPayload, VideoPayload videoPayload){
-//        playlistPayload.getVideos().add(videoPayload.toEntity());
-//        return playlistPayload;
-//    }
-//
-//    public PlaylistPayload deleteVideo(PlaylistPayload playlistPayload,VideoPayload videoPayload){
-//        playlistPayload.getVideos().remove(videoPayload.toEntity());
-//        return playlistPayload;
-//    }
 }

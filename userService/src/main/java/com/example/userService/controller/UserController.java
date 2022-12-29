@@ -1,7 +1,9 @@
 package com.example.userService.controller;
 
 import com.example.userService.model.Owner;
+import com.example.userService.payload.PlaylistPayload;
 import com.example.userService.payload.UserPayload;
+import com.example.userService.service.PlaylistService;
 import com.example.userService.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +14,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/v1/api/users")
 public class UserController {
     private final UserService userService;
+    private final PlaylistService playlistService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, PlaylistService playlistService) {
         this.userService = userService;
+        this.playlistService = playlistService;
     }
 
     @PostMapping("/save")
@@ -36,5 +40,9 @@ public class UserController {
     @DeleteMapping("/{userId}/delete")
     public boolean deleteById(@PathVariable Long userId){
         return userService.deleteById(userId);
+    }
+    @GetMapping("/{userId}/playlists")
+    public List<PlaylistPayload> getUserPlaylists(@PathVariable Long userId){
+        return playlistService.getUserPlaylists(userId);
     }
 }

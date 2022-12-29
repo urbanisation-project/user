@@ -1,6 +1,5 @@
 package com.example.userService.APIs;
 
-import com.example.userService.payload.SearchKeyword;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,9 +11,9 @@ import java.util.Scanner;
 
 @Component
 public class SearchKeywordDailymotionService {
-    private JSONObject getDailymotionApiSearchResponse(SearchKeyword searchKeyword){
+    private JSONObject getDailymotionApiSearchResponse(String searchKeyword){
         try {
-            URL url = new URL("https://api.dailymotion.com/videos?search=" + searchKeyword.getKeyword());
+            URL url = new URL("https://api.dailymotion.com/videos?search=" + searchKeyword);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -85,7 +84,7 @@ public class SearchKeywordDailymotionService {
         return null;
     }
 
-    public JSONArray getVideos(SearchKeyword searchKeyword) throws JSONException {
+    public JSONArray getVideos(String searchKeyword) throws JSONException {
 
         JSONObject json = getDailymotionApiSearchResponse(searchKeyword);
 
