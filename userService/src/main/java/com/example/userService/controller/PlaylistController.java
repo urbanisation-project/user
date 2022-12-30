@@ -43,9 +43,9 @@ public class PlaylistController {
         return playlistService.save(playlistPayload.toEntity()).toPayload();
     }
 
-    @DeleteMapping("/{playlistId}/delete")
-    public boolean deleteById(@PathVariable Long playlistId){
-        return playlistService.deleteById(playlistId);
+    @PostMapping("/delete")
+    public boolean deleteById(@RequestBody PlaylistPayload playlist){
+        return playlistService.deleteById(playlist.getId());
     }
 
     @PostMapping("/{playlistId}/add-video")

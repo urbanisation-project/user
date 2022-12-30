@@ -32,9 +32,9 @@ public class VideoController {
         return videoService.save(videoPayload.toEntity()).toPayload();
     }
 
-    @DeleteMapping ("{videoId}/remove")
-    public boolean deleteById(@PathVariable Long videoId){
-        return videoService.deleteById(videoId);
+    @PostMapping("/remove")
+    public boolean deleteById(@RequestBody VideoPayload video){
+        return videoService.deleteById(video.getId());
     }
 
 }

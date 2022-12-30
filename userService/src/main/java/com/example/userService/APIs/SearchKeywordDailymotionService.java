@@ -7,13 +7,16 @@ import org.springframework.stereotype.Component;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Component
 public class SearchKeywordDailymotionService {
     private JSONObject getDailymotionApiSearchResponse(String searchKeyword){
         try {
-            URL url = new URL("https://api.dailymotion.com/videos?search=" + searchKeyword);
+            URL url = new URL("https://api.dailymotion.com/videos?search=" + Arrays.stream(searchKeyword.split(" ")).collect(Collectors.joining("%20")));
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -87,7 +90,8 @@ public class SearchKeywordDailymotionService {
     public JSONArray getVideos(String searchKeyword) throws JSONException {
 
         JSONObject json = getDailymotionApiSearchResponse(searchKeyword);
-
+        if(Objects.isNull(json))
+            return null;
         JSONArray jsonModified = json != null ? (JSONArray) json.get("list") : null;
 
         JSONArray newJsonArray = new JSONArray();

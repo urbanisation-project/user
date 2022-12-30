@@ -7,14 +7,17 @@ import org.springframework.stereotype.Component;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 @Component
 public class SearchKeywordYoutubeService {
     private JSONObject getYoutubeApiResponse(String searchKeyword){
         try {
             String API_KEY = "AIzaSyChTRL1w_f2Q-LcyKp9V191ML69wYYVzQY&q";
-            URL url = new URL("https://youtube.googleapis.com/youtube/v3/search?part=snippet&key=" + API_KEY + "=" + searchKeyword);
+            URL url = new URL("https://youtube.googleapis.com/youtube/v3/search?part=snippet&key=" + API_KEY + "=" + Arrays.stream(searchKeyword.split(" ")).collect(Collectors.joining()));
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("GET");
@@ -51,14 +54,16 @@ public class SearchKeywordYoutubeService {
     public JSONArray getVideos(String searchKeyword) throws JSONException {
 
         JSONObject json = getYoutubeApiResponse(searchKeyword);
-
+        if(Objects.isNull(json)|| json.isNull("items"))
+            return null;
         JSONArray jsonModified = (JSONArray) json.get("items");
 
         JSONArray newJsonArray = new JSONArray();
 
         for (int i = 0; i < jsonModified.length(); i++) {
             JSONObject video = (JSONObject) jsonModified.get(i);
-
+//            if(json.isNull("snippet")||json.isNull("thumbnails")||json.isNull("high")||json.isNull("id"))
+//                return null;
             JSONObject snippet = (JSONObject) video.get("snippet");
             JSONObject thumbnails = (JSONObject) snippet.get("thumbnails");
             JSONObject high = (JSONObject) thumbnails.get("high");
