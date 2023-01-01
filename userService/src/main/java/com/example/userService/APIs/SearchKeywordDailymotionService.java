@@ -106,7 +106,7 @@ public class SearchKeywordDailymotionService {
                 if (workingJson != null){
                     newVideo.put("title", workingJson.getString("title"));
                     newVideo.put("description", workingJson.getString("description"));
-                    newVideo.put("link", "https://geo.dailymotion.com/player/x938as.html?video=" + video.getString("id"));
+                    newVideo.put("link", "https://www.dailymotion.com/embed/video/" + video.getString("id")+"?pubtool=oembed");
                     newVideo.put("thumbnail", workingJson.getString("thumbnail_1080_url"));
                 }
 
